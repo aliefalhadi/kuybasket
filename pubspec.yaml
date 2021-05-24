@@ -22,6 +22,7 @@ dependencies:
   flutter_easyloading: ^2.2.2
   shared_preferences: ^0.5.12+4
   formz: ^0.3.2
+  rflutter_alert: ^1.1.0
 
 dev_dependencies:
   flutter_test:

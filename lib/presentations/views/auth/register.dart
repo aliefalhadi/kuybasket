@@ -1,10 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
 import 'package:kuybasket/logics/cubits/register/register_cubit.dart';
+import 'package:formz/formz.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Register extends StatefulWidget {
   const Register({Key key}) : super(key: key);
@@ -53,26 +56,13 @@ class _RegisterState extends State<Register> {
                         style: Theme.of(context).textTheme.headline3,
                       ),
                       vSpace(32),
+                      _NameTextField(),
+                      vSpace(16),
                       _UsernameTextField(),
                       vSpace(16),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          hintText: "Username",
-                        ),
-                      ),
+                      _NomorHpTextField(),
                       vSpace(16),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          hintText: "Nomor Hp",
-                        ),
-                      ),
-                      vSpace(16),
-                      TextFormField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: "Password",
-                        ),
-                      ),
+                      _PasswordTextField(),
                     ],
                   ),
                 ),
@@ -103,18 +93,7 @@ class _RegisterState extends State<Register> {
                       SizedBox(
                         height: 24,
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: RaisedButton(
-                          padding: EdgeInsets.all(16),
-                          color: primaryColor,
-                          child: Text(
-                            "REGISTER",
-                            style: textWhite,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
+                      _ButtonRegister(),
                     ],
                   ),
                 )
@@ -127,8 +106,122 @@ class _RegisterState extends State<Register> {
   }
 }
 
+class _ButtonRegister extends StatelessWidget {
+  const _ButtonRegister({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterCubit, RegisterState>(
+      buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        return SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: RaisedButton(
+              child: Text(
+                'Register',
+                style: textWhite.copyWith(fontWeight: FontWeight.bold),
+              ),
+              color: primaryColor,
+              onPressed: state.status.isValidated
+                  ? () async {
+                      FocusScope.of(context).unfocus();
+                      EasyLoading.show(status: 'loading...');
+                      bool resRegister = await context
+                          .read<RegisterCubit>()
+                          .registerWithCredentials();
+                      if(resRegister){
+                        EasyLoading.dismiss();
+                        Alert(
+                          context: context,
+                          type: AlertType.success,
+                          title: "Registrasi Berhasil",
+                          desc: "Silahkan login menggunakan username yang telah didaftarkan.",
+                          buttons: [
+                            DialogButton(
+                              child: Text(
+                                "OK",
+                                style: TextStyle(color: Colors.white, fontSize: 20),
+                              ),
+                              onPressed: () => Navigator.pop(context),
+                              width: 120,
+                            )
+                          ],
+                        ).show();
+                      }
+                    }
+                  : null),
+        );
+      },
+    );
+  }
+}
+
+class _PasswordTextField extends StatelessWidget {
+  const _PasswordTextField({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterCubit, RegisterState>(
+        buildWhen: (prev, next) => prev.password != next.password,
+        builder: (context, state) {
+          return TextFormField(
+            obscureText: true,
+            decoration: InputDecoration(
+              hintText: "Password",
+            ),
+            onChanged: (password) =>
+                context.read<RegisterCubit>().passwordChanged(password),
+          );
+        });
+  }
+}
+
+class _NomorHpTextField extends StatelessWidget {
+  const _NomorHpTextField({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterCubit, RegisterState>(
+        buildWhen: (prev, next) => prev.noHp != next.noHp,
+        builder: (context, state) {
+          return TextFormField(
+            decoration: InputDecoration(
+              hintText: "Nomor Hp",
+            ),
+            onChanged: (noHp) =>
+                context.read<RegisterCubit>().noHpChanged(noHp),
+          );
+        });
+  }
+}
+
 class _UsernameTextField extends StatelessWidget {
   const _UsernameTextField({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterCubit, RegisterState>(
+        buildWhen: (prev, next) => prev.username != next.username,
+        builder: (context, state) {
+          return TextFormField(
+            decoration: InputDecoration(
+              hintText: "Username",
+            ),
+            onChanged: (username) =>
+                context.read<RegisterCubit>().usernameChanged(username),
+          );
+        });
+  }
+}
+
+class _NameTextField extends StatelessWidget {
+  const _NameTextField({
     Key key,
   }) : super(key: key);
 
@@ -141,7 +234,7 @@ class _UsernameTextField extends StatelessWidget {
           decoration: InputDecoration(
             hintText: "Name",
           ),
-          onChanged: ,
+          onChanged: (name) => context.read<RegisterCubit>().nameChanged(name),
         );
       },
     );

@@ -25,6 +25,9 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          buttonTheme: ButtonThemeData(
+            padding: EdgeInsets.all(16)
+          ),
           inputDecorationTheme: InputDecorationTheme(
             contentPadding: EdgeInsets.all(8),
             border: OutlineInputBorder(

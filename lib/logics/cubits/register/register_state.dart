@@ -37,4 +37,9 @@ class RegisterState extends Equatable {
       exceptionError: exceptionError ?? this.exceptionError,
     );
   }
+
+  @override
+  String toString() {
+    return 'RegisterState{status: $status}';
+  }
 }

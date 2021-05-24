@@ -61,14 +61,16 @@ class RegisterCubit extends Cubit<RegisterState> {
     ));
   }
 
-  Future<void> registerWithCredentials() async {
-    if (!state.status.isValidated) return;
+  Future<bool> registerWithCredentials() async {
+    if (!state.status.isValidated) return null;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      await Future.delayed(Duration(milliseconds: 500));
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      await Future.delayed(Duration(milliseconds: 5000));
+      // emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      return true;
     } on Exception catch (e) {
-      emit(state.copyWith(status: FormzStatus.submissionFailure, exceptionError: e.toString()));
+      // emit(state.copyWith(status: FormzStatus.submissionFailure, exceptionError: e.toString()));
+      return false;
     }
   }
 }
