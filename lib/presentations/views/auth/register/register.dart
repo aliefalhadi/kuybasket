@@ -16,39 +16,36 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<RegisterCubit>(
-      create: (context) => RegisterCubit(),
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
-        floatingActionButton: _FloatingActionButton(),
-        body: Container(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Daftar",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              vSpace(16),
-              Text("Lengkapi data dirimu di bawah ini, ya"),
-              vSpace(8),
-              LabelTextField(label: 'Nama Lengkap'),
-              _NamaTextField(),
-              LabelTextField(label: 'Email'),
-              _EmailTextField(),
-              LabelTextField(label: 'Nomor HP'),
-              _NoHPTextField()
-            ],
-          ),
+        elevation: 0,
+      ),
+      floatingActionButton: _FloatingActionButton(),
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Daftar",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+            vSpace(16),
+            Text("Lengkapi data dirimu di bawah ini, ya"),
+            vSpace(8),
+            LabelTextField(label: 'Nama Lengkap'),
+            _NamaTextField(),
+            LabelTextField(label: 'Email'),
+            _EmailTextField(),
+            LabelTextField(label: 'Nomor HP'),
+            _NoHPTextField()
+          ],
         ),
       ),
     );
@@ -68,8 +65,7 @@ class _FloatingActionButton extends StatelessWidget {
         return FloatingActionButton(
           onPressed: state.status.isValidated
               ? () {
-                  Navigator.pushReplacementNamed(
-                      context, AppRouterStrings.otpRegister);
+                  Navigator.pushReplacementNamed(context, AppRouterStrings.otpRegister);
                 }
               : null,
           child: Icon(Icons.arrow_right_alt),
@@ -92,6 +88,7 @@ class _NoHPTextField extends StatelessWidget {
         return TextFormField(
           initialValue: "+62",
           cursorColor: Colors.black,
+          keyboardType: TextInputType.number,
           onChanged: (noHP) => context.read<RegisterCubit>().noHpChanged(noHP),
         );
       },
@@ -112,6 +109,7 @@ class _EmailTextField extends StatelessWidget {
         return TextFormField(
           textInputAction: TextInputAction.done,
           cursorColor: Colors.black,
+          keyboardType: TextInputType.emailAddress,
           onChanged: (email) =>
               context.read<RegisterCubit>().emailChanged(email),
         );

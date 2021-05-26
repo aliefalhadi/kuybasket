@@ -1,12 +1,16 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:kuybasket/data/validation_models/password_validation.dart';
+import 'package:kuybasket/data/repositories/auth/auth_repository.dart';
 import 'package:kuybasket/data/validation_models/string_validation.dart';
 
 part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
+  AuthRepository _authRepository = AuthRepository();
   RegisterCubit() : super(RegisterState());
 
   void namaChanged(String value) {
@@ -48,11 +52,21 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   Future<bool> registerWithCredentials() async {
     if (!state.status.isValidated) return null;
+    log(state.noHp.toString(), name: 'asd');
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      await Future.delayed(Duration(milliseconds: 5000));
-      // emit(state.copyWith(status: FormzStatus.submissionSuccess));
-      return true;
+      Map dataRegist = {
+        'name': state.nama.value,
+        'email' : state.email.value,
+        'no_hp' : state.noHp.value
+      };
+
+      bool res = await _authRepository.postRegisterUser(jsonEncode(dataRegist));
+      if(res){
+        return true;
+      }else{
+        return false;
+      }
     } on Exception catch (e) {
       // emit(state.copyWith(status: FormzStatus.submissionFailure, exceptionError: e.toString()));
       return false;

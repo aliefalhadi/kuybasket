@@ -25,6 +25,9 @@ dependencies:
   rflutter_alert: ^1.1.0
   pinput: ^0.2.6
   pin_code_fields: ^6.1.0
+  dio: ^3.0.10
+  dio_http_cache:
+
 
 dev_dependencies:
   flutter_test:
