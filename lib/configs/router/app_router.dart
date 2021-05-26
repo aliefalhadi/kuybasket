@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kuybasket/configs/constants/app_router_strings.dart';
-import 'package:kuybasket/presentations/views/auth/register.dart';
+import 'package:kuybasket/presentations/views/auth/register/register.dart';
+import 'package:kuybasket/presentations/views/auth/register/pin_otp_register.dart';
 import 'package:kuybasket/presentations/views/detail_info_lapangan.dart';
 import 'package:kuybasket/presentations/views/index.dart';
 import 'package:kuybasket/presentations/views/konfirmasi_pembayaran.dart';
@@ -18,6 +19,8 @@ class AppRouter {
         break;
       case AppRouterStrings.register:
         return MaterialPageRoute(builder: (_) => Register());
+      case AppRouterStrings.otpRegister:
+        return MaterialPageRoute(builder: (_) => PinOtpRegister());
         break;
       case '/':
         return MaterialPageRoute(builder: (_) => Index());

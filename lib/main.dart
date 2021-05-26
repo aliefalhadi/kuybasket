@@ -32,6 +32,9 @@ class App extends StatelessWidget {
             contentPadding: EdgeInsets.all(8),
             border: OutlineInputBorder(
                 borderSide: const BorderSide()),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black, width: 2),
+            )
           ),
         ),
         onGenerateRoute: appRouter.onGenerateRoute,

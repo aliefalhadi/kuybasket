@@ -9,28 +9,26 @@ part 'register_state.dart';
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterState());
 
-  void nameChanged(String value) {
-    final name = StringValidation.dirty(value);
+  void namaChanged(String value) {
+    final nama = StringValidation.dirty(value);
     emit(state.copyWith(
-      name: name,
+      nama: nama,
       status: Formz.validate([
-        name,
-        state.username,
+        nama,
+        state.email,
         state.noHp,
-        state.password,
       ]),
     ));
   }
 
-  void usernameChanged(String value) {
-    final username = StringValidation.dirty(value);
+  void emailChanged(String value) {
+    final email = StringValidation.dirty(value);
     emit(state.copyWith(
-      username: username,
+      email: email,
       status: Formz.validate([
-        username,
-        state.name,
+        email,
+        state.nama,
         state.noHp,
-        state.password,
       ]),
     ));
   }
@@ -41,25 +39,12 @@ class RegisterCubit extends Cubit<RegisterState> {
       noHp: noHp,
       status: Formz.validate([
         noHp,
-        state.name,
-        state.username,
-        state.password,
+        state.nama,
+        state.email,
       ]),
     ));
   }
 
-  void passwordChanged(String value) {
-    final password = PasswordValidation.dirty(value);
-    emit(state.copyWith(
-      password: password,
-      status: Formz.validate([
-        password,
-        state.name,
-        state.username,
-        state.noHp,
-      ]),
-    ));
-  }
 
   Future<bool> registerWithCredentials() async {
     if (!state.status.isValidated) return null;

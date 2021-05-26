@@ -17,3 +17,14 @@ class StringValidation extends FormzInput<String, StringValidationError> {
     return null;
   }
 }
+
+extension Explanation on StringValidationError {
+  String get nama {
+    switch(this) {
+      case StringValidationError.empty:
+        return "Inputan tidak boleh kosong";
+      default:
+        return null;
+    }
+  }
+}

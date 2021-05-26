@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
+import 'package:kuybasket/configs/themes/app_themes.dart';
 
 class Onboard extends StatefulWidget {
   const Onboard({Key key}) : super(key: key);
@@ -13,7 +14,7 @@ class _OnboardState extends State<Onboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: Colors.white,
       body: Container(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -26,7 +27,6 @@ class _OnboardState extends State<Onboard> {
                   Image.asset('assets/images/basket.png'),
                   SizedBox(height: 24,),
                   Text("Lakukan Pemesanan Lapangan Basket dengan Lebih Mudah.",style: TextStyle(
-                      color: Colors.white,
                       fontSize: 24,
                       fontWeight: FontWeight.bold
                   ), textAlign: TextAlign.center,)
@@ -34,39 +34,29 @@ class _OnboardState extends State<Onboard> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
-                  color: Color(0xff3a3940),
-                  borderRadius: BorderRadius.circular(20)
-              ),
-              child: Row(
+              child: Column(
                 children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)
-                      ),
-                      child: Center(
-                        child: Text("Daftar", style: TextStyle(
-                            fontWeight: FontWeight.bold
-                        ),),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: (){
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: RaisedButton(
+                      elevation: 0,
+                      child: Text("Masuk", style: textWhite.copyWith(fontWeight: FontWeight.bold),),
+                      onPressed: (){
                         Navigator.pushNamed(context, AppRouterStrings.login);
                       },
-                      child: Container(
-                          child: Center(
-                            child: Text("Login", style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white
-                            )),
-                          )
+                    ),
+                  ),
+                  vSpace(16),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: OutlineButton(
+                      borderSide: BorderSide(
+                        color: primaryColor
                       ),
+                      child: Text("Belum ada akun? Daftar dulu", style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),),
+                      onPressed: (){
+                        Navigator.pushNamed(context, AppRouterStrings.register);
+                      },
                     ),
                   )
                 ],
