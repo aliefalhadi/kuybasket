@@ -12,4 +12,11 @@ class AuthDataProvider{
     log(response.statusCode.toString(),name: 'res');
     return response;
   }
+
+  Future<Response> postLoginUser(String data)async{
+    log(data,name: 'data');
+    Response response = await _baseAPI.post(url:'/auths/login', data: data);
+    log(response.statusCode.toString(),name: 'res');
+    return response;
+  }
 }

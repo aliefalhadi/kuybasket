@@ -7,7 +7,8 @@ import 'package:kuybasket/logics/debug/app_bloc_observer.dart';
 import 'package:kuybasket/presentations/views/home.dart';
 import 'package:kuybasket/presentations/views/onboard/onboard.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
   runApp(App(appRouter: AppRouter(),));
 }

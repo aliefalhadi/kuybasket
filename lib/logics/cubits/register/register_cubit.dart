@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:kuybasket/data/models/ResponseLoginUserModel.dart';
 import 'package:kuybasket/data/repositories/auth/auth_repository.dart';
 import 'package:kuybasket/data/validation_models/string_validation.dart';
 
@@ -50,7 +51,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
 
-  Future<bool> registerWithCredentials() async {
+  Future<ResponseLoginUserModel> registerWithCredentials() async {
     if (!state.status.isValidated) return null;
     log(state.noHp.toString(), name: 'asd');
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
@@ -61,15 +62,15 @@ class RegisterCubit extends Cubit<RegisterState> {
         'no_hp' : state.noHp.value
       };
 
-      bool res = await _authRepository.postRegisterUser(jsonEncode(dataRegist));
-      if(res){
-        return true;
+      var res = await _authRepository.postRegisterUser(jsonEncode(dataRegist));
+      if(res != null){
+        return res;
       }else{
-        return false;
+        return null;
       }
     } on Exception catch (e) {
       // emit(state.copyWith(status: FormzStatus.submissionFailure, exceptionError: e.toString()));
-      return false;
+      return null;
     }
   }
 }

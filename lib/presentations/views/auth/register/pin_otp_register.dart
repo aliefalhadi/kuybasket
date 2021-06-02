@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
+import 'package:kuybasket/logics/blocs/authentication/authentication_bloc.dart';
 import 'package:kuybasket/logics/cubits/register/register_cubit.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -67,10 +69,12 @@ class _PinOtpRegisterState extends State<PinOtpRegister> {
                   ],
                   onCompleted: (v) async {
                     EasyLoading.show(status: "Loading");
-                    bool res = await BlocProvider.of<RegisterCubit>(context).registerWithCredentials();
+                    var res = await BlocProvider.of<RegisterCubit>(context).registerWithCredentials();
                     EasyLoading.dismiss();
-                    if(res){
+                    if(res != null){
                       EasyLoading.showToast('Berhasil');
+                      context.read<AuthenticationBloc>().add(AuthenticationUserLogged(responseLoginUserModel: res));
+                      Navigator.pushNamedAndRemoveUntil(context, AppRouterStrings.home, (route) => false);
                     }else{
                       EasyLoading.showToast('Gagal');
                     }

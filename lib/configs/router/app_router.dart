@@ -37,7 +37,7 @@ class AppRouter {
                   child: PinOtpRegister(),
                 ));
         break;
-      case '/':
+      case AppRouterStrings.home:
         return MaterialPageRoute(builder: (_) => Index());
         break;
       case '/detail':

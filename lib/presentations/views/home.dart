@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
+import 'package:kuybasket/logics/blocs/authentication/authentication_bloc.dart';
 import 'package:kuybasket/presentations/widgets/text_form_search.dart';
 
 class Home extends StatefulWidget {
@@ -25,7 +27,7 @@ class _HomeState extends State<Home> {
                 width: 8,
               ),
               Text(
-                "Pekanbaru",
+               BlocProvider.of<AuthenticationBloc>(context).state.user.email,
                 style: textBlack,
               ),
               SizedBox(
