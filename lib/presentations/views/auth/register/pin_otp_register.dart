@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
-import 'package:kuybasket/logics/blocs/authentication/authentication_bloc.dart';
-import 'package:kuybasket/logics/cubits/register/register_cubit.dart';
+import 'package:kuybasket/providers/register_provider.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class PinOtpRegister extends StatefulWidget {
+  final RegisterProvider provider;
+  PinOtpRegister({this.provider});
   @override
   _PinOtpRegisterState createState() => _PinOtpRegisterState();
 }
@@ -40,7 +40,7 @@ class _PinOtpRegisterState extends State<PinOtpRegister> {
                 ),
                 vSpace(16),
                 Text(
-                  "SMS dengan kode verifikasi telah dikirimkan ke +62222XXX",
+                  "SMS dengan kode verifikasi telah dikirimkan ke "+widget.provider.dataRegister['no_hp'],
                   textAlign: TextAlign.center,
                 ),
                 vSpace(32),
@@ -69,11 +69,11 @@ class _PinOtpRegisterState extends State<PinOtpRegister> {
                   ],
                   onCompleted: (v) async {
                     EasyLoading.show(status: "Loading");
-                    var res = await BlocProvider.of<RegisterCubit>(context).registerWithCredentials();
+                    var res = await widget.provider.registerWithCredentials();
                     EasyLoading.dismiss();
-                    if(res != null){
+                    if(res){
                       EasyLoading.showToast('Berhasil');
-                      context.read<AuthenticationBloc>().add(AuthenticationUserLogged(responseLoginUserModel: res));
+                      // context.read<AuthenticationBloc>().add(AuthenticationUserLogged(responseLoginUserModel: res));
                       Navigator.pushNamedAndRemoveUntil(context, AppRouterStrings.home, (route) => false);
                     }else{
                       EasyLoading.showToast('Gagal');
