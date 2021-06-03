@@ -10,4 +10,6 @@ class AppRouterStrings {
   static const String otpLogin = 'login/otp';
 
   static const String detailLapangan = 'lapangan/detail';
+
+  static const String konfirmasiPemesanan = '/pesanan/konfirmasi-pembayaran';
 }

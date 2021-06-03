@@ -5,7 +5,7 @@ import 'package:kuybasket/presentations/views/auth/register/pin_otp_register.dar
 import 'package:kuybasket/presentations/views/auth/register/register.dart';
 import 'package:kuybasket/presentations/views/lapangan/detail_info_lapangan.dart';
 import 'package:kuybasket/presentations/views/home/index.dart';
-import 'package:kuybasket/presentations/views/konfirmasi_pembayaran.dart';
+import 'package:kuybasket/presentations/views/pemesanan/konfirmasi_pembayaran.dart';
 import 'package:kuybasket/presentations/views/auth/login/login.dart';
 import 'package:kuybasket/presentations/views/onboard/onboard.dart';
 import 'package:kuybasket/providers/login_provider.dart';
@@ -39,8 +39,9 @@ class AppRouter {
         String idLapangan = routeSettings.arguments;
         return MaterialPageRoute(builder: (_) => DetailInfoLapangan(idLapangan: idLapangan,));
         break;
-      case '/pesanan/konfirmasi-pembayaran':
-        return MaterialPageRoute(builder: (_) => KonfirmasiPembayaran());
+      case  AppRouterStrings.konfirmasiPemesanan:
+        String idPemesanan = routeSettings.arguments;
+        return MaterialPageRoute(builder: (_) => KonfirmasiPembayaran(idPemesanan: idPemesanan,));
         break;
       default:
         return null;
