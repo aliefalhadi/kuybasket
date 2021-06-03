@@ -6,4 +6,6 @@ class AppRouterStrings {
   static const String home = 'home';
 
   static const String otpRegister = 'register/otp';
+
+  static const String otpLogin = 'login/otp';
 }
