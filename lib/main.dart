@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kuybasket/configs/router/app_router.dart';
 import 'package:kuybasket/locator.dart';
-import 'package:kuybasket/presentations/views/home.dart';
-import 'package:kuybasket/presentations/views/index.dart';
+import 'package:kuybasket/presentations/views/home/index.dart';
 import 'package:kuybasket/presentations/views/onboard/onboard.dart';
-import 'package:kuybasket/presentations/views/welcome.dart';
 import 'package:kuybasket/providers/MainProvider.dart';
 
 void main() async{

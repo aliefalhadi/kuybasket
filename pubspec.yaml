@@ -25,6 +25,7 @@ dependencies:
   dio: ^3.0.10
   dio_http_cache:
   get_it: ^5.0.1
+  intl:
 
 
 dev_dependencies:

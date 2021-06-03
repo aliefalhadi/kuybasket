@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
-import 'package:kuybasket/presentations/views/home.dart';
+import 'package:kuybasket/presentations/views/home/components/dashboard.dart';
 
 class Index extends StatefulWidget {
   const Index({Key key}) : super(key: key);
@@ -63,7 +63,7 @@ class _IndexState extends State<Index> with SingleTickerProviderStateMixin{
       body: TabBarView(
         controller: _tabController,
         children: [
-          Home(),
+          Dashboard(),
           Text("Tanding"),
           Text("Pemesanan"),
           Text("Profile")

@@ -68,7 +68,7 @@ class KonfirmasiPembayaran extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16,),
-            Center(child: Text("Lihat Panduan Pembayaran", style: TextStyle(
+            Center(child: Text("Silahkan transfer biaya pemesanan ke nomor rekening yang ada di atas", style: TextStyle(
               color: Colors.white,
               fontSize: 16,
               decoration: TextDecoration.underline
@@ -117,9 +117,9 @@ class ListTileInfo extends StatelessWidget {
               fontSize: 16
           ),),
           SizedBox(height: 16,),
-          Text("ID Pemabyaran"),
+          Text("Total biaya"),
           SizedBox(height: 8,),
-          Text("SA-797979AX", style: TextStyle(
+          Text("Rp 200.000", style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16
           ),),

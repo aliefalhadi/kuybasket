@@ -1,29 +1,30 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
+import 'package:kuybasket/configs/utils/NumberFormatHelper.dart';
 import 'package:kuybasket/presentations/views/components/set_jam_pemesanan.dart';
-import 'package:smart_select/smart_select.dart';
+import 'package:kuybasket/providers/lapangan_provider.dart';
 
-class DetailPemesananLapangan extends StatelessWidget {
-  const DetailPemesananLapangan({Key key}) : super(key: key);
+class DetailPemesananLapangan extends StatefulWidget {
+  final LapanganProvider provider;
+  final GlobalKey globalKey;
+  const DetailPemesananLapangan({@required this.provider, this.globalKey});
 
   @override
+  _DetailPemesananLapanganState createState() => _DetailPemesananLapanganState();
+}
+
+class _DetailPemesananLapanganState extends State<DetailPemesananLapangan> {
+  String selectedDate = 'Pilih tanggal';
+  String selectedJam = 'Pilih jam';
+  int totalBiaya = 0;
+  @override
   Widget build(BuildContext context) {
-    /// Which holds the selected date
-    /// Defaults to today's date.
-    DateTime selectedDate = DateTime.now();
-    // a simple usage
-
-    List<int> value = [2];
-    List<S2Choice<int>> frameworks = [
-      S2Choice<int>(value: 1, title: 'Ionic'),
-      S2Choice<int>(value: 2, title: 'Flutter'),
-      S2Choice<int>(value: 3, title: 'React Native'),
-    ];
-
     return Container(
       color: Colors.grey,
       child: Container(
@@ -43,14 +44,19 @@ class DetailPemesananLapangan extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               leading: Icon(Icons.date_range_rounded),
               title: Text("Tanggal Pemesanan", style: textBold,),
-              subtitle: Text("12 Februari 2002"),
+              subtitle: Text(selectedDate),
               trailing: Icon(Icons.arrow_forward_ios, size: 16,),
               onTap: () async{
-                showDateRangePicker(
+               var selected = await showDatePicker(
                     context: context,
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2025)
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2025),
                 );
+               setState(() {
+                 selectedDate = DateFormat('dd MMM yyyy').format(selected);
+                 widget.provider.dataPemesanan['tanggal'] = DateFormat('yyyy/MM/dd').format(selected);
+               });
               },
             ),
             Divider(),
@@ -58,20 +64,31 @@ class DetailPemesananLapangan extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               leading: Icon(Icons.access_time_rounded),
               title: Text("Jam Pemesanan", style: textBold,),
-              subtitle: Text("07.00, 08.00"),
+              subtitle: Text(selectedJam),
               trailing: Icon(Icons.arrow_forward_ios, size: 16,),
-              onTap: (){
-                  showDialog(
+              onTap: ()async {
+                var res = await showDialog(
                     context: context,
                     builder: (context){
                       return Dialog(
                         elevation: 1,
-                        child: SetJamPemesanan(),
+                        child: SetJamPemesanan(
+                          idLapangan: widget.provider.dataPemesanan['id_lapangan'],
+                          tanggal: widget.provider.dataPemesanan['tanggal'],
+                        ),
                       );
                     }
                   );
+                if(res != null){
+                  setState(() {
+                    widget.provider.dataPemesanan['jam'] = res;
+                    selectedJam = res.toString();
+                    totalBiaya = res.length * widget.provider.detailLapanganModel.data.dataLapangan.biayaPerJam;
+                  });
+                }
               },
             ),
+            vSpace(16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -84,7 +101,7 @@ class DetailPemesananLapangan extends StatelessWidget {
                         color: Colors.grey,
                         fontWeight: FontWeight.bold
                       ),),
-                      Text("Rp 200.000", style: TextStyle(
+                      Text("Rp "+valueRupiah(totalBiaya), style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold
                       ),)
@@ -96,9 +113,10 @@ class DetailPemesananLapangan extends StatelessWidget {
                   padding: EdgeInsets.all(16),
                   child: Text("Buat Pemesanan", style: textWhite.copyWith(fontWeight: FontWeight.bold),),
                   onPressed: (){
+                    print(jsonEncode(widget.provider.dataPemesanan));
                         showDialog(
                           barrierDismissible: false,
-                          context: context,
+                          context: widget.globalKey.currentContext,
                           builder: (context){
                             return AlertDialog(
                               title: Text("Konfirmasi pemesanan lapangan"),
@@ -117,11 +135,15 @@ class DetailPemesananLapangan extends StatelessWidget {
                                   onPressed: () async{
                                     Navigator.pop(context);
                                     EasyLoading.show(status: 'loading...');
-                                    await Timer(Duration(seconds: 4), (){
+                                    String res = await widget.provider.postPemesananLapangan();
+                                    EasyLoading.dismiss();
+                                    if(res != ''){
+                                      Navigator.pushNamedAndRemoveUntil(widget.globalKey.currentContext, '/pesanan/konfirmasi-pembayaran', (route) => route.isFirst);
+                                      EasyLoading.showToast('berhasil');
+                                    }else{
+                                      EasyLoading.showToast('gagal, silahkan coba lagi');
+                                    }
 
-                                    });
-                                    EasyLoading.showToast('berhasil');
-                                    Navigator.pushReplacementNamed(context, '/pesanan/konfirmasi-pembayaran');
                                   },
                                   child: Text("Pesan", style: textWhite,),
                                 )
