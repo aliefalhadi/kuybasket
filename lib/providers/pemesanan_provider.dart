@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:kuybasket/configs/constants/view_state.dart';
 import 'package:kuybasket/locator.dart';
 import 'package:kuybasket/models/daftar_pemesanan_model.dart';
@@ -50,6 +51,35 @@ class PemesananProvider extends BaseProvider {
       } else {
         setState(ViewState.FetchNull);
       }
+    }
+  }
+
+  Future<bool> postUploadBuktiPembayaran(
+      List<File> foto2, String idPemesanan) async {
+    try {
+      // simpan image ke map
+      FormData formData;
+      await Future.wait(foto2.map((foto) async {
+        File file = foto;
+        String fileName = file.path.split('/').last;
+        print(fileName);
+        // listFoto.add(MapEntry("foto[]",
+        //     MultipartFile.fromFileSync(file.path, filename: fileName)));
+         formData = new FormData.fromMap({
+          "id_pemesanan_lapangan": "1",
+          "foto[]": MultipartFile.fromFileSync(file.path, filename: fileName)
+        });
+      }));
+
+      var res = await _pemesananService.postBuktiPembayaran(formData);
+      print(formData.files);
+      return true;
+    } on SocketException catch (e) {
+      setState(ViewState.ErrConnection);
+      return false;
+    } catch (e) {
+      setState(ViewState.FetchNull);
+      return false;
     }
   }
 }

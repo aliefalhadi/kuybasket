@@ -1,1 +1,1 @@
-const String baseImageUrl ='http://192.168.1.5:8888/kuybasket_backend/web/images/foto-lapangan/';
+const String baseImageUrl ='http://192.168.1.11/kuybasket_backend/web/images/foto-lapangan/';

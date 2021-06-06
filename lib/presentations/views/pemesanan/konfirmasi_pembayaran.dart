@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/constants/view_state.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
 import 'package:kuybasket/configs/utils/NumberFormatHelper.dart';
@@ -130,7 +131,9 @@ class KonfirmasiPembayaran extends StatelessWidget {
                       RaisedButton(
                         color: Colors.white,
                         padding: EdgeInsets.all(16),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRouterStrings.uploadBuktiPembayaran, arguments: provider.detailPemesananModel.data.dataPemesanan.idPemesananLapangan.toString());
+                        },
                         child: Text(
                           "Upload Bukti Pembayaran",
                           style: textBold,

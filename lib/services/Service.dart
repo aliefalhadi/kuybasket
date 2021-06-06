@@ -8,7 +8,7 @@ import 'package:kuybasket/utils/ErrorDioHandler.dart';
 
 class Service {
   Dio dio = locator<ApiInterceptors>().dio;
-  String baseUrl = 'http://192.168.1.5:8888/kuybasket_backend/api/v1';
+  String baseUrl = 'http://192.168.1.11/kuybasket_backend/api/v1';
 
 
   Future get(String url) async {
@@ -84,11 +84,12 @@ class Service {
   Future postImage(String url, var data) async {
     url = baseUrl + url;
     print(url);
+    print(data);
 
     if (await locator<ApiInterceptors>().checkConnection()) {
       final response = await dio.post(url,
           options:
-          Options(sendTimeout: 20000, headers: {'requiresToken': true}),
+          Options(sendTimeout: 20000, headers: {'requiresToken': true, 'content-type': null}),
           data: data);
       print(response);
       return response;

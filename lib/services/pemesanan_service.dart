@@ -52,4 +52,23 @@ class PemesananService extends Service{
       }
     }
   }
+
+  Future postBuktiPembayaran(var data) async {
+    try {
+      var url = '/lapangans/upload-bukti-pembayaran';
+      print(data);
+      var response = await postImage(url, data);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        throw ('data tidak ditemukan');
+      }
+    } catch (error) {
+      if(error is DioError){
+        print(error.response.statusCode);
+        throw(error.response.statusCode);
+      }
+    }
+  }
 }
