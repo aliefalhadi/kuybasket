@@ -21,8 +21,9 @@ class PemesananProvider extends BaseProvider {
       if (daftarPemesananModel.data.isEmpty ||
           daftarPemesananModel.data == []) {
         setState(ViewState.FetchNull);
+      }else{
+        setState(ViewState.Idle);
       }
-      setState(ViewState.Idle);
     } on SocketException catch (e) {
       setState(ViewState.ErrConnection);
     } catch (e) {

@@ -23,15 +23,17 @@ class _DaftarPemesananSelesaiState
     return BaseView<PemesananProvider>(
       onModelReady: (model) => model.getDaftarPemesanan(status: 'selesai'),
       builder: (context, provider, child) {
-        return provider.state == ViewState.Fetching
+        return
+          provider.state == ViewState.FetchNull
+              ? Center(
+            child: Text("Belum ada data pemesanan",),
+          )
+              :
+          provider.state == ViewState.Fetching
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : provider.state == ViewState.FetchNull
-                ? Center(
-                    child: Text("Belum ada data pemesanan", style: TextStyle(color: Colors.red),),
-                  )
-                : Container(
+            : Container(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     child: ListView(
                       children: List.generate(provider.daftarPemesananModel.data.length, (index){
