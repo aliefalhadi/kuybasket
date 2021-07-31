@@ -15,6 +15,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  TextEditingController noHP = TextEditingController();
+  bool next = false;
+
   @override
   Widget build(BuildContext context) {
     return BaseView<LoginProvider>(
@@ -26,11 +29,15 @@ class _LoginState extends State<Login> {
             backgroundColor: Colors.white,
             elevation: 0,
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, AppRouterStrings.otpLogin, arguments: provider);
-            },
-            child: Icon(Icons.arrow_right_alt),
+          floatingActionButton: new Visibility(
+            visible: next,
+            child: FloatingActionButton(
+              onPressed: () {
+                provider.otpHP(context);
+                Navigator.pushReplacementNamed(context, AppRouterStrings.otpLogin, arguments: provider);
+              },
+              child: Icon(Icons.arrow_right_alt),
+            ),
           ),
           body: Container(
             padding: EdgeInsets.all(16),
@@ -52,7 +59,18 @@ class _LoginState extends State<Login> {
                   initialValue: "+62",
                   cursorColor: Colors.black,
                   keyboardType: TextInputType.number,
-                  onChanged: (value)=> provider.stateChanged(field: 'no_hp', value: value),
+                  onChanged: (value){
+                    provider.stateChanged(field: 'no_hp', value: value);
+                    if(value.length>=4){
+                      setState(() {
+                        next = true;
+                      });
+                    } else  {
+                      setState(() {
+                        next = false;
+                      });
+                    }
+                  }
                 ),
               ],
             ),

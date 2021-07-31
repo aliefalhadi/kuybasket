@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kuybasket/configs/router/app_router.dart';
@@ -8,6 +9,7 @@ import 'package:kuybasket/providers/MainProvider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
   setupLocator();
   MainProvider mainProvider = locator<MainProvider>();
   mainProvider.onStartApp().then((value){

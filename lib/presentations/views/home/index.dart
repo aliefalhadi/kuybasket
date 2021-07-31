@@ -4,6 +4,8 @@ import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/presentations/views/home/components/daftar_pemesanan.dart';
 import 'package:kuybasket/presentations/views/home/components/dashboard.dart';
 
+import 'components/profile.dart';
+
 class Index extends StatefulWidget {
   const Index({Key key}) : super(key: key);
 
@@ -67,7 +69,7 @@ class _IndexState extends State<Index> with SingleTickerProviderStateMixin{
           Dashboard(),
           Text("Tanding"),
           DaftarPemesanan(),
-          Text("Profile")
+          Profile()
         ],
       ),
     );

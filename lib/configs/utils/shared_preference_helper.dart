@@ -38,4 +38,9 @@ class SharedPreferencesHelper{
       log("key not found",name:"Shared Preference");
     }
   }
+
+  Future logout() async{
+    sharedPreferences=await SharedPreferences.getInstance();
+    sharedPreferences.clear();
+  }
 }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "271837979627",
+    "project_id": "kuy-basket",
+    "storage_bucket": "kuy-basket.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271837979627:android:808c2de0781a38428a2fae",
+        "android_client_info": {
+          "package_name": "com.kuybasket.kuybasket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271837979627-1q6658ise30pp3d670n9tjve1ea7m339.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kuybasket.kuybasket",
+            "certificate_hash": "7f578439d067ecdb81171a068c3c856a635ba501"
+          }
+        },
+        {
+          "client_id": "271837979627-r63dvfhlgpo0k26422rld5nni25c7kfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB68NNnx4yD0GgEAxOsEypSzXhe_rpP1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271837979627-r63dvfhlgpo0k26422rld5nni25c7kfh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

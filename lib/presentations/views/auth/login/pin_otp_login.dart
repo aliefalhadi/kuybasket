@@ -1,11 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
+import 'package:kuybasket/configs/utils/shared_preference_helper.dart';
 import 'package:kuybasket/providers/login_provider.dart';
 import 'package:kuybasket/providers/register_provider.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+
+import '../../../../locator.dart';
 
 class PinOtpLogin extends StatefulWidget {
   final LoginProvider provider;
@@ -33,15 +37,15 @@ class _PinOtpLoginState extends State<PinOtpLogin> {
               children: [
                 Text(
                   "KODE VERIFIKASI",
-                  style: Theme
-                      .of(context)
+                  style: Theme.of(context)
                       .textTheme
                       .headline5
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
                 vSpace(16),
                 Text(
-                  "SMS dengan kode verifikasi telah dikirimkan ke "+widget.provider.dataRegister['no_hp'],
+                  "SMS dengan kode verifikasi telah dikirimkan ke " +
+                      widget.provider.dataRegister['no_hp'],
                   textAlign: TextAlign.center,
                 ),
                 vSpace(32),
@@ -55,7 +59,7 @@ class _PinOtpLoginState extends State<PinOtpLogin> {
                     color: Colors.green.shade600,
                     fontWeight: FontWeight.bold,
                   ),
-                  length: 4,
+                  length: 6,
                   animationType: AnimationType.fade,
                   cursorColor: Colors.black,
                   animationDuration: Duration(milliseconds: 300),
@@ -69,14 +73,27 @@ class _PinOtpLoginState extends State<PinOtpLogin> {
                     )
                   ],
                   onCompleted: (v) async {
+                    var res = false;
                     EasyLoading.show(status: "Loading");
-                    var res = await widget.provider.loginWithCredentials();
+                    widget.provider.otp = v;
+                    print(v);
+                    print(await locator<SharedPreferencesHelper>()
+                        .getValue('verPhoneId'));
+                    var res2 = await widget.provider.signIn(v);
+                    if(res2){
+                      res = await widget.provider.loginWithCredentials();
+                    }
+                    // signIn(v, await locator<SharedPreferencesHelper>().getValue('verPhoneId'));
+                    // FirebaseAuth.instance.signInWithCredential(PhoneAuthProvider.credential(
+                    //     verificationId: widget.provider.verificationId, smsCode: v));
+                    // var res = await widget.provider.loginWithCredentials();
                     EasyLoading.dismiss();
-                    if(res){
+                    if (res) {
                       EasyLoading.showToast('Berhasil');
                       // context.read<AuthenticationBloc>().add(AuthenticationUserLogged(responseLoginUserModel: res));
-                      Navigator.pushNamedAndRemoveUntil(context, AppRouterStrings.home, (route) => false);
-                    }else{
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, AppRouterStrings.home, (route) => false);
+                    } else {
                       EasyLoading.showToast('Gagal');
                     }
                   },
@@ -107,4 +124,5 @@ class _PinOtpLoginState extends State<PinOtpLogin> {
       ),
     );
   }
+
 }
