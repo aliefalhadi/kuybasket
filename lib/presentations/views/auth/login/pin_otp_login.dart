@@ -84,8 +84,8 @@ class _PinOtpLoginState extends State<PinOtpLogin> {
                       res = await widget.provider.loginWithCredentials();
                     }
                     // signIn(v, await locator<SharedPreferencesHelper>().getValue('verPhoneId'));
-                    // FirebaseAuth.instance.signInWithCredential(PhoneAuthProvider.credential(
-                    //     verificationId: widget.provider.verificationId, smsCode: v));
+                    FirebaseAuth.instance.signInWithCredential(PhoneAuthProvider.credential(
+                        verificationId: widget.provider.verificationId, smsCode: v));
                     // var res = await widget.provider.loginWithCredentials();
                     EasyLoading.dismiss();
                     if (res) {
