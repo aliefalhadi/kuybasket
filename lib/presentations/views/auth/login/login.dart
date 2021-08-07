@@ -33,8 +33,7 @@ class _LoginState extends State<Login> {
             visible: next,
             child: FloatingActionButton(
               onPressed: () {
-                provider.otpHP(context);
-                Navigator.pushReplacementNamed(context, AppRouterStrings.otpLogin, arguments: provider);
+                Navigator.pushReplacementNamed(context, AppRouterStrings.otpLogin, arguments: provider.dataRegister['no_hp']);
               },
               child: Icon(Icons.arrow_right_alt),
             ),
@@ -61,6 +60,7 @@ class _LoginState extends State<Login> {
                   keyboardType: TextInputType.number,
                   onChanged: (value){
                     provider.stateChanged(field: 'no_hp', value: value);
+                    print(provider.dataRegister['no_hp']);
                     if(value.length>=4){
                       setState(() {
                         next = true;

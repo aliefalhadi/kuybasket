@@ -28,8 +28,9 @@ class LoginProvider extends BaseProvider {
 
   Future<bool> loginWithCredentials() async {
     try {
-      Response res =
-          await _authService.postLogin(jsonEncode(this.dataRegister));
+      print("hahahah");
+      Response res = await _authService.postLogin(jsonEncode(this.dataRegister));
+      print("res.data ${res.data}");
 
       if (res.data != null) {
         await locator<SharedPreferencesHelper>()
@@ -54,60 +55,34 @@ class LoginProvider extends BaseProvider {
 
         return true;
       } else {
+        print("oops");
         return false;
       }
     } on Exception catch (e) {
+      print(e.toString());
       // emit(state.copyWith(status: FormzStatus.submissionFailure, exceptionError: e.toString()));
       return false;
     }
   }
 
-  Future<void> otpHP(BuildContext context) async {
-    print(dataRegister['no_hp']);
+  Future<void> otpHP(BuildContext context, noHp) async {
+    print("no hp " + noHp);
     authFirebase.verifyPhoneNumber(
-        phoneNumber: dataRegister['no_hp'],
+        phoneNumber: noHp,
         verificationCompleted: (phoneAuthCredential) {
-          // authFirebase.signInWithCredential(phoneAuthCredential).then((value) => print(value));
-
-          print("verificationCompleted");
+        print("verificationCompleted");
         },
         verificationFailed: (FirebaseAuthException authException){
           print("verificationFailed");
         },
         codeSent: (String verId, [int forceCodeResent]) async {
           verificationId = verId;
-          await locator<SharedPreferencesHelper>().storeValueString(
-          'verPhoneId',verId);
-          print(await locator<SharedPreferencesHelper>().getValue('verPhoneId'));
           print("kode masuk");
-          print(verificationId);
         },
         codeAutoRetrievalTimeout: (String verId){
           verificationId = verId;
           print("codeAutoRetrievalTimeout");
         });
-  }
-
-  Future<void> otp1(BuildContext context) async {
-    print(dataRegister['no_hp']);
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: dataRegister['no_hp'],
-      timeout: Duration(seconds: 120),
-      verificationCompleted: (AuthCredential authCredential) {
-
-      },
-      verificationFailed: (FirebaseAuthException authException) {
-      },
-      codeSent: (String verId, [int forceCodeResent]) async {
-        await locator<SharedPreferencesHelper>().storeValueString(
-            'verPhoneId',verId);
-        print(await locator<SharedPreferencesHelper>().getValue('verPhoneId'));
-        print("kode masuk");
-      },
-      codeAutoRetrievalTimeout: (String verId) {
-
-      },
-    );
   }
 
   Future<String> logOut() async {
@@ -117,24 +92,22 @@ class LoginProvider extends BaseProvider {
 
   Future<bool> signIn(var otp) async {
     try {
-      authFirebase.signInWithCredential(PhoneAuthProvider.credential(
-        verificationId: await locator<SharedPreferencesHelper>().getValue('verPhoneId'),
+      print("op");
+      var res = await authFirebase.signInWithCredential(PhoneAuthProvider.credential(
+        verificationId: verificationId,
         smsCode: otp,
-      ))
-          .then((UserCredential value) {
-        if (value.user != null) {
+      ));
+      print("res di signIn $res");
+        if (res != null) {
           print("berhasil login");
           return true;
         } else {
           print("salah kode");
           return false;
         }
-      }).catchError((error) {
-        print("catch error");
-        return false;
-      });
     } catch (e) {
-      print("ini error yaaaaa" + e);
+      print("ini error yaaaaa " + e.toString());
+      return false;
     }
   }
 }
