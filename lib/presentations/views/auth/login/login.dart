@@ -32,9 +32,12 @@ class _LoginState extends State<Login> {
           floatingActionButton: new Visibility(
             visible: next,
             child: FloatingActionButton(
-              onPressed: () {
+              onPressed: () async{
                 // provider.otpHP(context);
                 // Navigator.pus(context, AppRouterStrings.otpLogin, arguments: provider);
+                bool res = await provider.loginWithCredentials();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, AppRouterStrings.home, (route) => false);
               },
               child: Icon(Icons.arrow_right_alt),
             ),

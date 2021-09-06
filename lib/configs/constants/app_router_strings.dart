@@ -14,4 +14,8 @@ class AppRouterStrings {
   static const String konfirmasiPemesanan = '/pesanan/konfirmasi-pembayaran';
 
   static const String uploadBuktiPembayaran = '/pesanan/upload-bukti-pembayaran';
+
+  static const String detailPemesanan = '/pemesanan/detail';
+
+  static const String notifikasi = '/notifikasi';
 }
