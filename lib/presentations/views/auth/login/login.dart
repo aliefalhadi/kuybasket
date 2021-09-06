@@ -33,8 +33,8 @@ class _LoginState extends State<Login> {
             visible: next,
             child: FloatingActionButton(
               onPressed: () {
-                provider.otpHP(context);
-                Navigator.pushReplacementNamed(context, AppRouterStrings.otpLogin, arguments: provider);
+                // provider.otpHP(context);
+                // Navigator.pus(context, AppRouterStrings.otpLogin, arguments: provider);
               },
               child: Icon(Icons.arrow_right_alt),
             ),

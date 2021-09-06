@@ -33,8 +33,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => PinOtpRegister(provider: registerProvider,));
         break;
       case AppRouterStrings.otpLogin:
-        LoginProvider loginProvider = routeSettings.arguments;
-        return MaterialPageRoute(builder: (_) => PinOtpLogin(provider: loginProvider,));
+        String noHp = routeSettings.arguments;
+        return MaterialPageRoute(builder: (_) => PinOtpLogin(noHp: noHp));
         break;
       case AppRouterStrings.detailLapangan:
         String idLapangan = routeSettings.arguments;
