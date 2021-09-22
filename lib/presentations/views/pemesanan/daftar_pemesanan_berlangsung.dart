@@ -38,7 +38,10 @@ class _DaftarPemesananBerlangsungState
                       children: List.generate(provider.daftarPemesananModel.data.length, (index){
                         return  InkWell(
                           onTap: (){
-                            Navigator.pushNamed(context, AppRouterStrings.konfirmasiPemesanan,arguments: provider.daftarPemesananModel.data[index].data.idPemesananLapangan.toString());
+                            Navigator.pushNamed(context, AppRouterStrings.konfirmasiPemesanan,arguments: {
+                              'id_pemesanan': provider.daftarPemesananModel.data[index].data.idPemesananLapangan.toString(),
+                              'status' : provider.daftarPemesananModel.data[index].data.status == 'Menunggu Pembayaran' ? '0' : '1'
+                            });
                           },
                           child: Container(
                             padding: EdgeInsets.all(16),

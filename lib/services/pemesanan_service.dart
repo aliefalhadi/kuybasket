@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:kuybasket/models/daftar_pemesanan_model.dart';
+import 'package:kuybasket/models/detail_pemesanan_lapangan_model.dart';
 import 'package:kuybasket/models/detail_pemesanan_model.dart';
 import 'package:kuybasket/services/Service.dart';
 
@@ -40,6 +41,29 @@ class PemesananService extends Service{
         DetailPemesananModel detailPemesananModel =
         detailPemesananModelFromJson(jsonEncode(response.data));
         return detailPemesananModel;
+      } else {
+        throw ('data tidak ditemukan');
+      }
+    } on SocketException catch (_) {
+      throw SocketException('no_internet');
+    } catch (error) {
+      if (error is DioError) {
+        print(error.response.statusCode);
+        throw (error.response.statusCode);
+      }
+    }
+  }
+
+  Future getDetailPemesananLapangan({String idPemesanan}) async {
+    try {
+      var url = '/lapangans/detail-pemesanan/'+idPemesanan;
+
+      var response = await get(url);
+
+      if (response.statusCode == 200) {
+        DetailPemesananLapanganModel detailPemesananLapanganModel =
+        detailPemesananLapanganModelFromJson(jsonEncode(response.data));
+        return detailPemesananLapanganModel;
       } else {
         throw ('data tidak ditemukan');
       }

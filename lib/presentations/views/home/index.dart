@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/presentations/views/home/components/daftar_pemesanan.dart';
+import 'package:kuybasket/presentations/views/home/components/daftar_tanding.dart';
 import 'package:kuybasket/presentations/views/home/components/dashboard.dart';
 
 import 'components/profile.dart';
@@ -67,7 +68,7 @@ class _IndexState extends State<Index> with SingleTickerProviderStateMixin{
         controller: _tabController,
         children: [
           Dashboard(),
-          Text("Tanding"),
+          DaftarTanding(),
           DaftarPemesanan(),
           Profile()
         ],

@@ -25,32 +25,16 @@ class _DashboardState extends State<Dashboard> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    color: primaryColor,
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    'Pekanbaru',
-                    style: textBlack,
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Icon(Icons.keyboard_arrow_down_outlined, color: primaryColor)
-                ],
-              ),
+              title: Text("KUYBASKET", style: textBlack,),
               actions: [
                 IconButton(
                     icon: Icon(
                       Icons.notifications_none_outlined,
                       color: primaryColor,
                     ),
-                    onPressed: () {})
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRouterStrings.notifikasi);
+                    })
               ],
             ),
             body:

@@ -9,7 +9,8 @@ import 'package:kuybasket/providers/pemesanan_provider.dart';
 
 class KonfirmasiPembayaran extends StatelessWidget {
   final String idPemesanan;
-  const KonfirmasiPembayaran({this.idPemesanan});
+  final String status;
+  const KonfirmasiPembayaran({this.idPemesanan, this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -49,96 +50,124 @@ class KonfirmasiPembayaran extends StatelessWidget {
                       SizedBox(
                         height: 16,
                       ),
-                      Text(
-                        "Selesaikan pemabayaran sebelum",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        DateFormat('dd MMM yyyy, H:m').format(provider
-                            .detailPemesananModel
-                            .data
-                            .dataPemesanan
-                            .expiredPembayaranAt),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Card(
-                        margin: EdgeInsets.zero,
+                      Visibility(
+                        visible: status == '1' ? true : false,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                            Text(
+                              "Terimakasih anda telah melakukan pembayaran",
+                              style: TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                            Text(
+                              "Pemesanan anda sedang dikonfirmasi admin lapangan",
+                              style: TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Visibility(
+                        visible: status == '0' ? true : false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Selesaikan pembayaran sebelum",
+                              style: TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              DateFormat('dd MMM yyyy, H:m').format(provider
+                                  .detailPemesananModel
+                                  .data
+                                  .dataPemesanan
+                                  .expiredPembayaranAt),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Card(
+                              margin: EdgeInsets.zero,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Total biaya"),
-                                  SizedBox(
-                                    height: 8,
+                                  Container(
+                                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Total biaya"),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          "Rp "+valueRupiah(provider.detailPemesananModel.data.dataPemesanan.totalBaya),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold, fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  Text(
-                                    "Rp "+valueRupiah(provider.detailPemesananModel.data.dataPemesanan.totalBaya),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold, fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Divider(),
-                            Container(
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    title: Text("BRI (a.n." +
-                                        provider.detailPemesananModel.data
-                                            .dataPemilik.noRekAtasNama +
-                                        ")"),
-                                    subtitle: Text(provider.detailPemesananModel
-                                        .data.dataPemilik.noRek),
-                                    trailing: IconButton(
-                                      icon: Icon(Icons.copy),
-                                      onPressed: () {},
+                                  Divider(),
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text("BRI (a.n." +
+                                              provider.detailPemesananModel.data
+                                                  .dataPemilik.noRekAtasNama +
+                                              ")"),
+                                          subtitle: Text(provider.detailPemesananModel
+                                              .data.dataPemilik.noRek),
+                                          trailing: IconButton(
+                                            icon: Icon(Icons.copy),
+                                            onPressed: () {},
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
                             ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Center(
+                                child: Text(
+                                  "Silahkan transfer biaya pemesanan ke nomor rekening yang ada di atas",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      decoration: TextDecoration.underline),
+                                )),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: RaisedButton(
+                                color: Colors.white,
+                                padding: EdgeInsets.all(16),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, AppRouterStrings.uploadBuktiPembayaran, arguments: provider.detailPemesananModel.data.dataPemesanan.idPemesananLapangan.toString());
+                                },
+                                child: Text(
+                                  "Upload Bukti Pembayaran",
+                                  style: textBold,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Center(
-                          child: Text(
-                        "Silahkan transfer biaya pemesanan ke nomor rekening yang ada di atas",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            decoration: TextDecoration.underline),
-                      )),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      RaisedButton(
-                        color: Colors.white,
-                        padding: EdgeInsets.all(16),
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRouterStrings.uploadBuktiPembayaran, arguments: provider.detailPemesananModel.data.dataPemesanan.idPemesananLapangan.toString());
-                        },
-                        child: Text(
-                          "Upload Bukti Pembayaran",
-                          style: textBold,
-                        ),
-                      ),
+
                       SizedBox(
                         height: 8,
                       ),

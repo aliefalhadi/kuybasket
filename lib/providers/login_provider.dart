@@ -70,6 +70,9 @@ class LoginProvider extends BaseProvider {
           // authFirebase.signInWithCredential(phoneAuthCredential).then((value) => print(value));
 
           print("verificationCompleted");
+
+          // jalankan function login
+
         },
         verificationFailed: (FirebaseAuthException authException){
           print("verificationFailed");
@@ -117,24 +120,21 @@ class LoginProvider extends BaseProvider {
 
   Future<bool> signIn(var otp) async {
     try {
-      authFirebase.signInWithCredential(PhoneAuthProvider.credential(
-        verificationId: await locator<SharedPreferencesHelper>().getValue('verPhoneId'),
+     var user = await authFirebase.signInWithCredential(PhoneAuthProvider.credential(
+        verificationId: verificationId,
         smsCode: otp,
-      ))
-          .then((UserCredential value) {
-        if (value.user != null) {
-          print("berhasil login");
-          return true;
-        } else {
-          print("salah kode");
-          return false;
-        }
-      }).catchError((error) {
-        print("catch error");
-        return false;
-      });
+      ));
+
+     if (user != null) {
+       print("berhasil login");
+       return true;
+     } else {
+       print("salah kode");
+       return false;
+     }
     } catch (e) {
       print("ini error yaaaaa" + e);
+      return false;
     }
   }
 }
