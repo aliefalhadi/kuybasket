@@ -18,4 +18,6 @@ class AppRouterStrings {
   static const String detailPemesanan = '/pemesanan/detail';
 
   static const String notifikasi = '/notifikasi';
+
+  static const String detailTanding ='/tanding/detail';
 }

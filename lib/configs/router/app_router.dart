@@ -11,6 +11,7 @@ import 'package:kuybasket/presentations/views/pemesanan/konfirmasi_pembayaran.da
 import 'package:kuybasket/presentations/views/auth/login/login.dart';
 import 'package:kuybasket/presentations/views/onboard/onboard.dart';
 import 'package:kuybasket/presentations/views/pemesanan/upload_bukti_pembayaran.dart';
+import 'package:kuybasket/presentations/views/tanding/detail_tanding.dart';
 import 'package:kuybasket/providers/login_provider.dart';
 import 'package:kuybasket/providers/register_provider.dart';
 
@@ -56,6 +57,10 @@ class AppRouter {
       case  AppRouterStrings.uploadBuktiPembayaran:
         String idPemesanan = routeSettings.arguments;
         return MaterialPageRoute(builder: (_) => UploadBuktiPembayaran(idPemesanan: idPemesanan,));
+        break;
+      case  AppRouterStrings.detailTanding:
+        // String idPemesanan = routeSettings.arguments;
+        return MaterialPageRoute(builder: (_) => DetailTanding());
         break;
       default:
         return null;
