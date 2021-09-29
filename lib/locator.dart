@@ -7,6 +7,7 @@ import 'package:kuybasket/providers/lapangan_provider.dart';
 import 'package:kuybasket/providers/login_provider.dart';
 import 'package:kuybasket/providers/pemesanan_provider.dart';
 import 'package:kuybasket/providers/register_provider.dart';
+import 'package:kuybasket/providers/tanding_provider.dart';
 import 'package:kuybasket/services/ApiInterceptors.dart';
 import 'package:kuybasket/services/NotifikasiService.dart';
 import 'package:kuybasket/services/auth_service.dart';
@@ -35,4 +36,5 @@ void setupLocator() {
   locator.registerFactory(() => DashboardProvider());
   locator.registerFactory(() => PemesananProvider());
   locator.registerFactory(() => LapanganProvider());
+  locator.registerFactory(() => TandingProvider());
 }
