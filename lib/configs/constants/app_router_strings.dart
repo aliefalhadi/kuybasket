@@ -22,4 +22,6 @@ class AppRouterStrings {
   static const String detailTanding ='/tanding/detail';
 
   static const String buatTanding ='/tanding/buat';
+
+  static const String daftarLapangan  = 'lapangan/list';
 }

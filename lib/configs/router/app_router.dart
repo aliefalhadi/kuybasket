@@ -5,6 +5,7 @@ import 'package:kuybasket/presentations/views/auth/register/pin_otp_register.dar
 import 'package:kuybasket/presentations/views/auth/register/register.dart';
 import 'package:kuybasket/presentations/views/lapangan/detail_info_lapangan.dart';
 import 'package:kuybasket/presentations/views/home/index.dart';
+import 'package:kuybasket/presentations/views/lapangan/list_lapangan.dart';
 import 'package:kuybasket/presentations/views/notifikasi/daftar_notifikasi.dart';
 import 'package:kuybasket/presentations/views/pemesanan/detail_pemesanan.dart';
 import 'package:kuybasket/presentations/views/pemesanan/konfirmasi_pembayaran.dart';
@@ -28,10 +29,15 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => Login());
         break;
       case AppRouterStrings.home:
-        return MaterialPageRoute(builder: (_) => Index());
+        return MaterialPageRoute(builder: (_) => Index(
+          selectedIndex: routeSettings.arguments ?? 0,
+        ));
         break;
       case AppRouterStrings.register:
         return MaterialPageRoute(builder: (_) => Register());
+        break;
+      case AppRouterStrings.daftarLapangan:
+        return MaterialPageRoute(builder: (_) => ListLapangan());
         break;
       case AppRouterStrings.notifikasi:
         return MaterialPageRoute(builder: (_) => DaftarNotifikasi());
@@ -62,7 +68,9 @@ class AppRouter {
         break;
       case  AppRouterStrings.detailTanding:
         // String idPemesanan = routeSettings.arguments;
-        return MaterialPageRoute(builder: (_) => DetailTanding());
+        return MaterialPageRoute(builder: (_) => DetailTanding(
+          idTanding: routeSettings.arguments,
+        ));
         break;
       case  AppRouterStrings.buatTanding:
         // String idPemesanan = routeSettings.arguments;

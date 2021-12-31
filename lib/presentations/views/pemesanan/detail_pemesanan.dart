@@ -1,6 +1,8 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kuybasket/configs/constants/view_state.dart';
+import 'package:kuybasket/configs/themes/app_themes.dart';
 import 'package:kuybasket/presentations/views/base_view.dart';
 import 'package:kuybasket/providers/pemesanan_provider.dart';
 
@@ -77,6 +79,27 @@ class _DetailPemesananState extends State<DetailPemesanan> {
                                 provider.detailPemesananLapanganModel.data.dataPemesanan
                                     .createdAt),
                           ),
+                          provider.detailPemesananLapanganModel.data.dataPemesanan.status =='Berhasil' ?
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              vSpace(16),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(8)
+                                ),
+                                padding: EdgeInsets.all(8),
+                                child: Text("Silahkan datang tepat waktu sesuai jam pemesanan anda dan scan qrcode di bawah ini.", style: TextStyle(color: Colors.white),),
+                              ),
+                              vSpace(32),
+                              BarcodeWidget(
+                                barcode: Barcode.qrCode(),
+                                data: provider.detailPemesananLapanganModel.data.dataPemesanan.idPemesananLapangan.toString()+" KUYBASKET",
+                              )
+                            ],
+                          )
+                              : Container()
                         ],
                       ),
                     ),

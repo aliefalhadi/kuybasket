@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
@@ -34,10 +35,15 @@ class _LoginState extends State<Login> {
             child: FloatingActionButton(
               onPressed: () async{
                 // provider.otpHP(context);
-                // Navigator.pus(context, AppRouterStrings.otpLogin, arguments: provider);
+                // Navigator.pushNamed(context, AppRouterStrings.otpLogin, arguments: provider.dataRegister['no_hp']);
                 bool res = await provider.loginWithCredentials();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, AppRouterStrings.home, (route) => false);
+                if(res){
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, AppRouterStrings.home, (route) => false);
+                }else{
+                  EasyLoading.showError("Nomor HP tidak ditemukan");
+                }
+
               },
               child: Icon(Icons.arrow_right_alt),
             ),

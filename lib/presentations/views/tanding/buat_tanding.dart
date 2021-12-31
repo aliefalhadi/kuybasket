@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
+import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
 import 'package:kuybasket/providers/tanding_provider.dart';
@@ -79,9 +81,17 @@ class _BuatTandingState extends State<BuatTanding> {
                   "Buat Tanding",
                   style: textWhite.copyWith(fontWeight: FontWeight.bold),
                 ),
-                onPressed: () {
-                 widget.provider.buatTanding();
-                 Navigator.pop(context);
+                onPressed: () async{
+                  EasyLoading.show(status: "Loading");
+                 bool res = await widget.provider.buatTanding();
+                 EasyLoading.dismiss();
+                 if(res){
+                   EasyLoading.showSuccess('Berhasil buat pertandingan');
+                   Navigator.pushNamedAndRemoveUntil(context, AppRouterStrings.home, (route) => false, arguments: 1);
+                 }else{
+                   EasyLoading.showSuccess('Gagal buat pertandingan, silahkan coba lagi');
+                 }
+
                 },
               ),
             )

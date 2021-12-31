@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/utils/shared_preference_helper.dart';
 import 'package:kuybasket/locator.dart';
 import 'package:kuybasket/models/data_token_login_model.dart';
 import 'package:kuybasket/providers/base_provider.dart';
 import 'package:kuybasket/services/auth_service.dart';
+// import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class LoginProvider extends BaseProvider {
   AuthService _authService = locator<AuthService>();
@@ -52,6 +55,11 @@ class LoginProvider extends BaseProvider {
         await locator<SharedPreferencesHelper>().storeValueString(
             'no_hp', dataTokenLoginModel.data.noHp.toString());
 
+        // await Future.wait([
+        //   OneSignal.shared.sendTag("idUser", dataTokenLoginModel.data.idUser.toString()),
+        //   OneSignal.shared.sendTag("username", dataTokenLoginModel.data.username.toString()),
+        // ]);
+
         return true;
       } else {
         return false;
@@ -62,17 +70,22 @@ class LoginProvider extends BaseProvider {
     }
   }
 
-  Future<void> otpHP(BuildContext context) async {
-    print(dataRegister['no_hp']);
+  Future<void> otpHP(BuildContext context, String noHP) async {
+    dataRegister['no_hp'] = noHP;
     authFirebase.verifyPhoneNumber(
         phoneNumber: dataRegister['no_hp'],
-        verificationCompleted: (phoneAuthCredential) {
-          // authFirebase.signInWithCredential(phoneAuthCredential).then((value) => print(value));
-
-          print("verificationCompleted");
-
-          // jalankan function login
-
+        verificationCompleted: (phoneAuthCredential) async{
+          print('sd');
+          EasyLoading.show(status: "Loading");
+          var res = await loginWithCredentials();
+          EasyLoading.dismiss();
+          if(res){
+            EasyLoading.showToast('Berhasil');
+            // context.read<AuthenticationBloc>().add(AuthenticationUserLogged(responseLoginUserModel: res));
+            Navigator.pushNamedAndRemoveUntil(context, AppRouterStrings.home, (route) => false);
+          }else{
+            EasyLoading.showToast('Gagal');
+          }
         },
         verificationFailed: (FirebaseAuthException authException){
           print("verificationFailed");
@@ -114,6 +127,12 @@ class LoginProvider extends BaseProvider {
   }
 
   Future<String> logOut() async {
+    // Map<String, dynamic> tags = await OneSignal.shared.getTags();
+    List<String> tagsIndex = [];
+    // tags.forEach((index, data) {
+    //   tagsIndex.add(index);
+    // });
+    // OneSignal.shared.deleteTags(tagsIndex);
     await locator<SharedPreferencesHelper>().logout();
   }
 

@@ -8,6 +8,7 @@ import 'package:kuybasket/models/detail_pemesanan_lapangan_model.dart';
 import 'package:kuybasket/models/detail_pemesanan_model.dart';
 import 'package:kuybasket/providers/base_provider.dart';
 import 'package:kuybasket/services/pemesanan_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PemesananProvider extends BaseProvider {
   DaftarPemesananModel daftarPemesananModel;
@@ -19,8 +20,12 @@ class PemesananProvider extends BaseProvider {
   Future getDaftarPemesanan({String status}) async {
     try {
       setState(ViewState.Fetching);
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+      String idUser = sharedPreferences.getString("idUser");
+
       daftarPemesananModel =
-          await _pemesananService.getDaftarPemesanan(status: status);
+          await _pemesananService.getDaftarPemesanan(status: status,idUser: idUser);
 
       if (daftarPemesananModel.data.isEmpty ||
           daftarPemesananModel.data == []) {
@@ -91,7 +96,7 @@ class PemesananProvider extends BaseProvider {
         // listFoto.add(MapEntry("foto[]",
         //     MultipartFile.fromFileSync(file.path, filename: fileName)));
          formData = new FormData.fromMap({
-          "id_pemesanan_lapangan": "1",
+          "id_pemesanan_lapangan": idPemesanan,
           "foto[]": MultipartFile.fromFileSync(file.path, filename: fileName)
         });
       }));

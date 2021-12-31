@@ -58,7 +58,8 @@ class LapanganProvider extends BaseProvider{
 
       jadwalLapanganByTanggalModel.data.forEach((data) {
         this.listJadwalLapangan.add({
-          'jam' : data.jam.substring(0,5),
+          'jam' : data.data.jam.substring(0,5),
+          'status' : data.status,
           'isSelected' : false,
         });
       });

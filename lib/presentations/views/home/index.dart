@@ -8,7 +8,8 @@ import 'package:kuybasket/presentations/views/home/components/dashboard.dart';
 import 'components/profile.dart';
 
 class Index extends StatefulWidget {
-  const Index({Key key}) : super(key: key);
+  final int selectedIndex;
+  const Index({Key key, this.selectedIndex = 0}) : super(key: key);
 
   @override
   _IndexState createState() => _IndexState();
@@ -21,8 +22,8 @@ class _IndexState extends State<Index> with SingleTickerProviderStateMixin{
   @override
   void initState() {
     super.initState();
-    _currentIndex = 0;
-    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
+    _currentIndex = widget.selectedIndex;
+    _tabController = TabController(length: 4, vsync: this, initialIndex: widget.selectedIndex);
     _tabController.addListener(_handleTabSelection);
   }
 

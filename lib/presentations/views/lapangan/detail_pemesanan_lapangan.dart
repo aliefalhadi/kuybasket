@@ -138,7 +138,7 @@ class _DetailPemesananLapanganState extends State<DetailPemesananLapangan> {
                                     String res = await widget.provider.postPemesananLapangan();
                                     EasyLoading.dismiss();
                                     if(res != ''){
-                                      Navigator.pushNamedAndRemoveUntil(widget.globalKey.currentContext, '/pesanan/konfirmasi-pembayaran', (route) => route.isFirst);
+                                      Navigator.pushNamedAndRemoveUntil(widget.globalKey.currentContext, '/pesanan/konfirmasi-pembayaran', (route) => route.isFirst,arguments: {'id_pemesanan' :res,'status':'0'});
                                       EasyLoading.showToast('berhasil');
                                     }else{
                                       EasyLoading.showToast('gagal, silahkan coba lagi');

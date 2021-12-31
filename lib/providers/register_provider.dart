@@ -1,6 +1,10 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/utils/shared_preference_helper.dart';
 import 'package:kuybasket/locator.dart';
 import 'package:kuybasket/models/data_token_login_model.dart';
@@ -9,6 +13,7 @@ import 'package:kuybasket/services/auth_service.dart';
 
 class RegisterProvider extends BaseProvider{
   AuthService _authService = locator<AuthService>();
+  String phoneNumber, username, otp, authStatus, verificationId, password;
   Map dataRegister = {
     "name" : "",
     "email" : "",
@@ -44,4 +49,68 @@ class RegisterProvider extends BaseProvider{
       return false;
     }
   }
+
+  Future sendCode(BuildContext context)async{
+    this.phoneNumber = this.dataRegister['no_hp'];
+    FirebaseAuth auth = FirebaseAuth.instance;
+    await auth.verifyPhoneNumber(
+      phoneNumber: '+$phoneNumber',
+      timeout: Duration(seconds: 120),
+      verificationCompleted: (AuthCredential authCredential) async{
+
+        // user sudah pernah verified
+        // lngsng alihkan ke halaman selanjutnya
+        EasyLoading.show(status: "Loading");
+        var res = await registerWithCredentials();
+        EasyLoading.dismiss();
+        if(res){
+          // context.read<AuthenticationBloc>().add(AuthenticationUserLogged(responseLoginUserModel: res));
+          Navigator.pushNamedAndRemoveUntil(context, AppRouterStrings.home, (route) => false);
+          EasyLoading.showToast('Berhasil');
+        }else{
+          EasyLoading.showToast('Gagal');
+        }
+        // Navigator.pushReplacementNamed(context, AppRouterStrings.register);
+      },
+      verificationFailed: (FirebaseAuthException authException) {
+        // setState(()
+
+        print(authException);
+        EasyLoading.showError(authException.message,duration: Duration(seconds: 3),dismissOnTap: true,maskType: EasyLoadingMaskType.clear);
+        // });
+      },
+      codeSent: (String verId, [int forceCodeResent]) async{
+        print('asdasd');
+        verificationId = verId;
+        print(verId);
+        authStatus = "Kode berhasil dikirimkan ke nomor $phoneNumber";
+      },
+      codeAutoRetrievalTimeout: (String verId) {
+        verificationId = verId;
+        authStatus = "Waktu Habis";
+        return false;
+      },
+    );
+  }
+
+  Future validationOtp(
+      {@required String verificationId, @required String otp}) async {
+    try {
+      print(verificationId);
+      print(otp);
+      var user = await FirebaseAuth.instance
+          .signInWithCredential(PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: otp));
+
+      if (user != null) {
+        print("berhasil login");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
 
 class CardTanding extends StatefulWidget {
+  final String idTanding;
   final String name;
-  final String tgl;
-  const CardTanding({Key key, this.name, this.tgl}) : super(key: key);
+  final DateTime tgl;
+  const CardTanding({Key key, this.name, this.tgl, this.idTanding}) : super(key: key);
 
   @override
   _CardTandingState createState() => _CardTandingState();
@@ -17,7 +19,7 @@ class _CardTandingState extends State<CardTanding> {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(
-            context, AppRouterStrings.detailTanding);
+            context, AppRouterStrings.detailTanding,arguments: widget.idTanding);
       },
       child: Container(
         padding: EdgeInsets.all(16),
@@ -61,7 +63,7 @@ class _CardTandingState extends State<CardTanding> {
                         Icon(Icons.calendar_today_outlined,
                             size: 18),
                         hSpace(4),
-                        Text(widget.tgl.substring(0,9)),
+                        Text(DateFormat('dd MMMM yyyy').format(widget.tgl)),
                       ],
                     ),
                   ),
@@ -74,7 +76,7 @@ class _CardTandingState extends State<CardTanding> {
                           size: 18,
                         ),
                         hSpace(4),
-                        Text("${widget.tgl.substring(11,16)} WIB"),
+                        Text(DateFormat('HH:mm').format(widget.tgl)),
                       ],
                     ),
                   )

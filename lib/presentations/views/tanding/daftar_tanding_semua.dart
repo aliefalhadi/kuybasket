@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:kuybasket/configs/constants/app_router_strings.dart';
-import 'package:kuybasket/configs/constants/strings.dart';
 import 'package:kuybasket/configs/constants/view_state.dart';
-import 'package:kuybasket/configs/themes/app_colors.dart';
-import 'package:kuybasket/configs/themes/app_themes.dart';
-import 'package:kuybasket/configs/utils/NumberFormatHelper.dart';
 import 'package:kuybasket/presentations/views/base_view.dart';
 import 'package:kuybasket/presentations/views/components/card_tanding.dart';
-import 'package:kuybasket/providers/pemesanan_provider.dart';
 import 'package:kuybasket/providers/tanding_provider.dart';
 
 class DaftarTandingSemua extends StatefulWidget {
@@ -30,7 +23,7 @@ class _DaftarTandingSemuaState extends State<DaftarTandingSemua> {
               )
             : provider.state == ViewState.FetchNull
                 ? Center(
-                    child: Text("Belum ada data pemesanan"),
+                    child: Text("Belum ada data tanding"),
                   )
                 : Container(
                     padding: EdgeInsets.symmetric(vertical: 8),
@@ -38,13 +31,9 @@ class _DaftarTandingSemuaState extends State<DaftarTandingSemua> {
                       itemCount: provider.tanding.data.length,
                       itemBuilder: (context, index){
                         return CardTanding(
+                          idTanding: provider.tanding.data[index][0].tanding.idTanding.toString(),
                           name: provider.tanding.data[index][0].user.name,
-                          tgl: provider.tanding.data[index][0].tanding.tglTanding.toString(),
-                        );
-                          Column(
-                          children: [
-                            Text(provider.tanding.data[index][0].user.name)
-                          ],
+                          tgl: provider.tanding.data[index][0].tanding.tglTanding,
                         );
                       },
                     ),

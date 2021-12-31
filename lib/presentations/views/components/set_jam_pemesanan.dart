@@ -38,19 +38,27 @@ class _SetJamPemesananState extends State<SetJamPemesanan> {
                 child: Scrollbar(
                   child: ListView(
                     children: List.generate(provider.listJadwalLapangan.length, (index){
-                      return   CheckboxListTile(
-                          title: Text(provider.listJadwalLapangan[index]['jam']),
-                          value: provider.listJadwalLapangan[index]['isSelected'],
-                          onChanged: (value) {
-                            setState(() {
-                              provider.listJadwalLapangan[index]['isSelected'] = !provider.listJadwalLapangan[index]['isSelected'];
-                              if(provider.listJadwalLapangan[index]['isSelected']){
-                                jamSelected.add(provider.listJadwalLapangan[index]['jam']);
-                              }else{
-                                jamSelected.remove(provider.listJadwalLapangan[index]['jam']);
-                              }
+                      if (provider.listJadwalLapangan[index]['status'] == 0){
+                        return   CheckboxListTile(
+                            title: Text(provider.listJadwalLapangan[index]['jam']),
+                            value: provider.listJadwalLapangan[index]['isSelected'],
+                            onChanged: (value) {
+                              setState(() {
+                                provider.listJadwalLapangan[index]['isSelected'] = !provider.listJadwalLapangan[index]['isSelected'];
+                                if(provider.listJadwalLapangan[index]['isSelected']){
+                                  jamSelected.add(provider.listJadwalLapangan[index]['jam']);
+                                }else{
+                                  jamSelected.remove(provider.listJadwalLapangan[index]['jam']);
+                                }
+                              });
                             });
-                          });
+                      }else{
+                        return   ListTile(
+                            title: Text(provider.listJadwalLapangan[index]['jam']),
+                            trailing: Text("sudah dipesan", style: TextStyle(color: Colors.red, fontStyle: FontStyle.italic),),
+                            );
+                      }
+
                     }),
                   ),
                 ),

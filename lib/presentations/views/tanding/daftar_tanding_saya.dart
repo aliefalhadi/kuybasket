@@ -32,15 +32,11 @@ class _DaftarTandingSayaState extends State<DaftarTandingSaya> {
                       itemCount: provider.tanding.data.length,
                       itemBuilder: (context, index) {
                         return CardTanding(
+                          idTanding: provider.tanding.data[index][0].tanding.idTanding.toString(),
                           name: provider.tanding.data[index][0].user.name,
                           tgl: provider
                               .tanding.data[index][0].tanding.tglTanding
-                              .toString(),
-                        );
-                        Column(
-                          children: [
-                            Text(provider.tanding.data[index][0].user.name)
-                          ],
+                          ,
                         );
                       },
                     ),

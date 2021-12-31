@@ -29,7 +29,7 @@ class _PinOtpLoginState extends State<PinOtpLogin> {
   @override
   Widget build(BuildContext context) {
     return BaseView<LoginProvider>(
-      onModelReady: (model) => model.otpHP(context),
+      onModelReady: (model) => model.otpHP(context, widget.noHp),
       builder: (context, provider, child){
         return Scaffold(
           backgroundColor: Colors.white,

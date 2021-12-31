@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -7,6 +9,7 @@ import 'package:kuybasket/configs/constants/view_state.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
 import 'package:kuybasket/configs/utils/NumberFormatHelper.dart';
+import 'package:kuybasket/configs/utils/UrlLauncherHelper.dart';
 import 'package:kuybasket/presentations/views/base_view.dart';
 import 'package:kuybasket/presentations/views/lapangan/detail_pemesanan_lapangan.dart';
 import 'package:kuybasket/presentations/widgets/read_more_text.dart';
@@ -188,7 +191,9 @@ class _Container extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           vSpace(8),
-                          ContainerInfoOwner()
+                          ContainerInfoOwner(
+                            noHp: provider.detailLapanganModel.data.dataLapangan.kontakAdmin,
+                          )
                         ],
                       ),
                     )
@@ -251,8 +256,10 @@ class _Container extends StatelessWidget {
 }
 
 class ContainerInfoOwner extends StatelessWidget {
+  final String noHp;
   const ContainerInfoOwner({
     Key key,
+    this.noHp
   }) : super(key: key);
 
   @override
@@ -290,31 +297,55 @@ class ContainerInfoOwner extends StatelessWidget {
           Container(
             child: Row(
               children: [
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Icon(
-                    FontAwesome.whatsapp,
-                    color: Colors.white,
-                    size: 18,
+                InkWell(
+                  onTap: ()async{
+                    String url() {
+                      if (Platform.isIOS) {
+                        return "whatsapp://wa.me/+$noHp";
+                      } else {
+                        return "whatsapp://send?phone=+$noHp";
+                      }
+                    }
+                    UrlLauncherHelper.launchUrl(url: url());
+                  },
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Icon(
+                      FontAwesome.whatsapp,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                   ),
                 ),
                 SizedBox(
                   width: 8,
                 ),
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                      color: Colors.lightBlueAccent,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Icon(
-                    Icons.call,
-                    color: Colors.white,
-                    size: 18,
+                InkWell(
+                  onTap: (){
+                    String url() {
+                      if (Platform.isIOS) {
+                        return "tel:$noHp";
+                      } else {
+                        return "tel:$noHp";
+                      }
+                    }
+                    UrlLauncherHelper.launchUrl(url: url());
+                  },
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                        color: Colors.lightBlueAccent,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Icon(
+                      Icons.call,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                   ),
                 )
               ],

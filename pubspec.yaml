@@ -32,6 +32,8 @@ dependencies:
   firebase_auth:
   timeago:
   flutter_datetime_picker:
+  url_launcher:
+  barcode_widget: ^1.5.0
 
 
 dev_dependencies:

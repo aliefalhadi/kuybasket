@@ -2,15 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:kuybasket/models/daftar_pemesanan_model.dart';
 import 'package:kuybasket/models/detail_pemesanan_lapangan_model.dart';
 import 'package:kuybasket/models/detail_pemesanan_model.dart';
 import 'package:kuybasket/services/Service.dart';
 
 class PemesananService extends Service{
-  Future getDaftarPemesanan({String status}) async {
+  Future getDaftarPemesanan({String status,@required String idUser}) async {
     try {
-      var url = '/lapangans/daftar-pemesanan-by-user/4?status='+status;
+      var url = '/lapangans/daftar-pemesanan-by-user/'+idUser+'?status='+status;
 
       var response = await get(url);
 

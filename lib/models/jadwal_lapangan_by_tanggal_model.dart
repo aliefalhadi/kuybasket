@@ -18,18 +18,38 @@ class JadwalLapanganByTanggalModel {
   List<DatumJadwalLapangan> data;
 
   factory JadwalLapanganByTanggalModel.fromJson(Map<String, dynamic> json) => JadwalLapanganByTanggalModel(
-    status: json["status"] == null ? null : json["status"],
-    data: json["data"] == null ? null : List<DatumJadwalLapangan>.from(json["data"].map((x) => DatumJadwalLapangan.fromJson(x))),
+    status: json["status"],
+    data: List<DatumJadwalLapangan>.from(json["data"].map((x) => DatumJadwalLapangan.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "status": status == null ? null : status,
-    "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+    "status": status,
+    "data": List<dynamic>.from(data.map((x) => x.toJson())),
   };
 }
 
 class DatumJadwalLapangan {
   DatumJadwalLapangan({
+    this.data,
+    this.status,
+  });
+
+  Data data;
+  int status;
+
+  factory DatumJadwalLapangan.fromJson(Map<String, dynamic> json) => DatumJadwalLapangan(
+    data: Data.fromJson(json["data"]),
+    status: json["status"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "data": data.toJson(),
+    "status": status,
+  };
+}
+
+class Data {
+  Data({
     this.idJadwalJamLapangan,
     this.lapanganId,
     this.jam,
@@ -39,15 +59,15 @@ class DatumJadwalLapangan {
   int lapanganId;
   String jam;
 
-  factory DatumJadwalLapangan.fromJson(Map<String, dynamic> json) => DatumJadwalLapangan(
-    idJadwalJamLapangan: json["id_jadwal_jam_lapangan"] == null ? null : json["id_jadwal_jam_lapangan"],
-    lapanganId: json["lapangan_id"] == null ? null : json["lapangan_id"],
-    jam: json["jam"] == null ? null : json["jam"],
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+    idJadwalJamLapangan: json["id_jadwal_jam_lapangan"],
+    lapanganId: json["lapangan_id"],
+    jam: json["jam"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id_jadwal_jam_lapangan": idJadwalJamLapangan == null ? null : idJadwalJamLapangan,
-    "lapangan_id": lapanganId == null ? null : lapanganId,
-    "jam": jam == null ? null : jam,
+    "id_jadwal_jam_lapangan": idJadwalJamLapangan,
+    "lapangan_id": lapanganId,
+    "jam": jam,
   };
 }

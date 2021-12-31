@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kuybasket/configs/constants/app_router_strings.dart';
 import 'package:kuybasket/configs/themes/app_colors.dart';
 import 'package:kuybasket/configs/themes/app_themes.dart';
 import 'package:kuybasket/presentations/views/base_view.dart';
@@ -124,7 +125,8 @@ class _UploadBuktiPembayaranState extends State<UploadBuktiPembayaran>
                         var res = await provider.postUploadBuktiPembayaran(image, widget.idPemesanan);
                         EasyLoading.dismiss();
                         if(res){
-                          EasyLoading.showToast('Berhasil');
+                          EasyLoading.showToast('Berhasil upload bukti pembayaran');
+                          Navigator.pushNamedAndRemoveUntil(context, AppRouterStrings.home, (route) => false,arguments: 2);
                         }else{
                           EasyLoading.showToast('Gagal');
                         }
