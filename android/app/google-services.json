@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "80274888036",
+    "project_id": "kuybasket-dd028",
+    "storage_bucket": "kuybasket-dd028.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:80274888036:android:a501282fdecb7380f25671",
+        "android_client_info": {
+          "package_name": "com.kuybasket.kuybasket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "80274888036-ock2lbrrh2pbcc61so7teg7l12o42bc9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kuybasket.kuybasket",
+            "certificate_hash": "df835df8133e49ce6437747f96d7971857961fc3"
+          }
+        },
+        {
+          "client_id": "80274888036-h0qflt4mj7iqgu9ibricsu5e7hpcs8hr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxjwBairkvkZOFUTqazvvr2fMlrzqGVdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "80274888036-h0qflt4mj7iqgu9ibricsu5e7hpcs8hr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
